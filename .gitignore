@@ -1,0 +1,6 @@
+# Python bytecode from the test suite
+__pycache__/
+*.py[cod]
+
+# Factorio writes these next to the mod when packaging by hand
+*.zip

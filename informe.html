@@ -1,0 +1,772 @@
+<title>Cintas Blindadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+  :root {
+    --bg:        #E9EBED;
+    --surface:   #F6F7F8;
+    --surface-2: #DFE3E6;
+    --ink:       #16191C;
+    --ink-2:     #3D454C;
+    --muted:     #5C646C;
+    --line:      #CBD2D8;
+    --line-soft: #DDE2E6;
+
+    --accent:      #1585A3;
+    --accent-soft: rgba(21, 133, 163, 0.10);
+    --steel:       #7A848C;
+    --warn:        #A2601F;
+    --warn-soft:   rgba(162, 96, 31, 0.10);
+    --ok:          #3F7F45;
+    --ok-soft:     rgba(63, 127, 69, 0.10);
+
+    --belt-dark:  #4A5259;
+    --belt-mid:   #79838B;
+    --belt-light: #A7B0B7;
+
+    --shadow: 0 1px 2px rgba(16, 20, 24, .06), 0 8px 24px -12px rgba(16, 20, 24, .18);
+
+    --step--1: clamp(.78rem, .76rem + .1vw, .84rem);
+    --step-0:  clamp(.98rem, .95rem + .14vw, 1.06rem);
+    --step-1:  clamp(1.17rem, 1.1rem + .3vw, 1.35rem);
+    --step-2:  clamp(1.45rem, 1.3rem + .6vw, 1.85rem);
+    --step-3:  clamp(1.9rem, 1.6rem + 1.2vw, 2.8rem);
+    --step-4:  clamp(2.5rem, 1.9rem + 2.6vw, 4.4rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #14171A;
+      --surface:   #1C2126;
+      --surface-2: #242B31;
+      --ink:       #E6EAED;
+      --ink-2:     #BCC4CB;
+      --muted:     #8D97A0;
+      --line:      #2E353C;
+      --line-soft: #262D33;
+
+      --accent:      #4CC7E8;
+      --accent-soft: rgba(76, 199, 232, 0.12);
+      --steel:       #8A949C;
+      --warn:        #E0A15C;
+      --warn-soft:   rgba(224, 161, 92, 0.12);
+      --ok:          #78C07E;
+      --ok-soft:     rgba(120, 192, 126, 0.12);
+
+      --belt-dark:  #2A3036;
+      --belt-mid:   #4C555D;
+      --belt-light: #6F7A83;
+
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px -14px rgba(0, 0, 0, .7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:        #14171A;
+    --surface:   #1C2126;
+    --surface-2: #242B31;
+    --ink:       #E6EAED;
+    --ink-2:     #BCC4CB;
+    --muted:     #8D97A0;
+    --line:      #2E353C;
+    --line-soft: #262D33;
+
+    --accent:      #4CC7E8;
+    --accent-soft: rgba(76, 199, 232, 0.12);
+    --steel:       #8A949C;
+    --warn:        #E0A15C;
+    --warn-soft:   rgba(224, 161, 92, 0.12);
+    --ok:          #78C07E;
+    --ok-soft:     rgba(120, 192, 126, 0.12);
+
+    --belt-dark:  #2A3036;
+    --belt-mid:   #4C555D;
+    --belt-light: #6F7A83;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px -14px rgba(0, 0, 0, .7);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--step-0);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0 clamp(1.15rem, 4vw, 3rem);
+  }
+
+  h1, h2, h3 {
+    font-family: "Chakra Petch", ui-sans-serif, system-ui, sans-serif;
+    text-wrap: balance;
+    margin: 0;
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+  }
+
+  p { margin: 0; }
+  a { color: var(--accent); }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- hero ---------- */
+
+  header.hero {
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    padding: clamp(2.75rem, 7vw, 5rem) 0 clamp(1.9rem, 4vw, 2.6rem);
+  }
+
+  .hero h1 {
+    font-size: var(--step-4);
+    font-weight: 700;
+    letter-spacing: -0.022em;
+  }
+
+  .hero .lede {
+    font-size: var(--step-1);
+    color: var(--ink-2);
+    max-width: 34ch;
+  }
+
+  .tagrow { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+  .tag {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: var(--step--1);
+    padding: .2rem .6rem;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--ink-2);
+    background: var(--bg);
+  }
+  .tag.is-accent { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+  /* ---------- animated belt band ---------- */
+
+  .belt-band { position: relative; overflow: hidden; border-block: 1px solid var(--line); }
+
+  .belt {
+    height: 46px;
+    background-image: repeating-linear-gradient(
+      104deg,
+      var(--belt-dark) 0px,
+      var(--belt-mid) 7px,
+      var(--belt-light) 12px,
+      var(--belt-mid) 17px,
+      var(--belt-dark) 24px
+    );
+    background-size: 96px 100%;
+    animation: belt-run 2.6s linear infinite;
+  }
+
+  /* the recolor, literally: express cyan bleeding out into bare steel */
+  .belt-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      rgba(53, 185, 219, .62) 0%,
+      rgba(53, 185, 219, .30) 26%,
+      rgba(53, 185, 219, 0) 52%);
+    pointer-events: none;
+  }
+
+  @keyframes belt-run { from { background-position-x: 0; } to { background-position-x: 96px; } }
+
+  .belt-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .5rem 0 0;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .belt { animation: none; }
+  }
+
+  /* ---------- stat strip ---------- */
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: clamp(1.9rem, 4vw, 2.6rem);
+  }
+
+  .stat { background: var(--surface); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .2rem; }
+
+  .stat b {
+    font-family: "Chakra Petch", sans-serif;
+    font-size: var(--step-2);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat span { font-size: var(--step--1); color: var(--muted); line-height: 1.35; }
+  .stat.hi b { color: var(--accent); }
+
+  /* ---------- sections ---------- */
+
+  main { padding-bottom: 5rem; }
+
+  section { padding-top: clamp(2.75rem, 6vw, 4.25rem); }
+
+  .sec-head { display: flex; flex-direction: column; gap: .45rem; margin-bottom: 1.5rem; }
+  .sec-head h2 { font-size: var(--step-3); font-weight: 600; }
+  .sec-head p { color: var(--muted); max-width: 62ch; }
+
+  .prose { display: flex; flex-direction: column; gap: 1rem; max-width: 66ch; }
+  .prose strong { color: var(--ink); font-weight: 600; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+    box-shadow: var(--shadow);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; }
+
+  .find { display: flex; flex-direction: column; gap: .6rem; }
+  .find h3 { font-size: var(--step-1); font-weight: 600; }
+  .find p { color: var(--ink-2); font-size: var(--step--1); line-height: 1.6; }
+
+  /* ---------- tables ---------- */
+
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+
+  table { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
+
+  th, td {
+    text-align: left;
+    padding: .62rem .85rem;
+    border-bottom: 1px solid var(--line-soft);
+    white-space: nowrap;
+  }
+  thead th {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 500;
+    font-size: .74rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
+  td.lead { white-space: normal; min-width: 12rem; color: var(--ink); }
+  td.arm { color: var(--accent); font-weight: 600; }
+  .dim { color: var(--muted); }
+
+  /* ---------- callouts ---------- */
+
+  .note {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    padding: .9rem 1.1rem;
+    border-radius: 0 3px 3px 0;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+  }
+  .note.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+  .note.ok   { border-left-color: var(--ok);   background: var(--ok-soft); }
+  .note b { font-family: "Chakra Petch", sans-serif; font-size: var(--step-0); color: var(--ink); font-weight: 600; }
+
+  /* ---------- bug list ---------- */
+
+  ol.bugs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 3px; }
+  ol.bugs li { background: var(--surface); padding: 1rem 1.15rem; display: grid; grid-template-columns: 2.2rem 1fr; gap: .2rem 0; }
+  ol.bugs .n { font-family: "IBM Plex Mono", monospace; color: var(--warn); font-weight: 600; grid-row: span 2; }
+  ol.bugs h3 { font-size: var(--step-0); font-weight: 600; }
+  ol.bugs p { font-size: var(--step--1); color: var(--ink-2); }
+  ol.bugs code { font-size: .92em; }
+
+  code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    background: var(--surface-2);
+    border: 1px solid var(--line-soft);
+    padding: .06em .34em;
+    border-radius: 2px;
+    font-size: .9em;
+  }
+
+  /* ---------- share blocks ---------- */
+
+  .share { display: flex; flex-direction: column; gap: 1rem; }
+
+  .share-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .share-head h3 { font-size: var(--step-1); font-weight: 600; }
+  .share-head .where { font-size: var(--step--1); color: var(--muted); }
+
+  .copybox { position: relative; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); }
+
+  .copybox pre {
+    margin: 0;
+    padding: 1.15rem 1.2rem;
+    max-height: 30rem;
+    overflow: auto;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .86rem;
+    line-height: 1.62;
+    color: var(--ink-2);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .copybtn {
+    position: absolute;
+    top: .55rem;
+    right: .55rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .74rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: .34rem .7rem;
+    background: var(--surface-2);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .copybtn:hover { border-color: var(--accent); color: var(--accent); }
+  .copybtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .copybtn[data-done="1"] { color: var(--ok); border-color: var(--ok); }
+
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 4rem;
+    padding: 1.75rem 0 3rem;
+    font-size: var(--step--1);
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1.5rem;
+    justify-content: space-between;
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <p class="eyebrow">Informe de desarrollo &middot; Mod de Factorio 2.0</p>
+      <h1>Cintas Transportadoras Blindadas</h1>
+      <p class="lede">La velocidad de la cinta exprés, con blindaje pesado. Para líneas que cruzan zona de combate.</p>
+      <div class="tagrow">
+        <span class="tag">v0.2.0</span>
+        <span class="tag">Factorio 2.0.77</span>
+        <span class="tag">Space Age compatible</span>
+        <span class="tag is-accent">Carga verificada &mdash; 0 errores</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="belt-band">
+  <div class="belt"></div>
+  <div class="belt-tint"></div>
+</div>
+
+<div class="wrap">
+  <p class="belt-caption">
+    <span>cian exprés &mdash; hue 180&deg;</span>
+    <span>acero desnudo &mdash; sat. 0,013</span>
+  </p>
+
+  <div class="stats">
+    <div class="stat hi"><b>600</b><span>HP por tramo, frente a 170</span></div>
+    <div class="stat hi"><b>~10&times;</b><span>supervivencia ante behemoths</span></div>
+    <div class="stat"><b>4</b><span>resistencias, frente a 1</span></div>
+    <div class="stat"><b>22.942</b><span>mods revisados: no existía</span></div>
+    <div class="stat"><b>17</b><span>sprites recoloreados</span></div>
+    <div class="stat"><b>3</b><span>bugs silenciosos cazados</span></div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Qué es</p>
+      <h2>Una rama lateral, no un tier superior</h2>
+      <p>Con Space Age instalado, la cinta turbo ya está por encima de la exprés. Hacer la blindada más rápida habría dejado obsoleto un tier entero de la expansión. En su lugar conserva la velocidad exacta de la exprés y cambia todo lo demás.</p>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Propiedad</th>
+            <th class="num">Exprés</th>
+            <th class="num">Blindada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="lead">Velocidad</td><td class="num dim">0.09375</td><td class="num">0.09375</td></tr>
+          <tr><td class="lead">HP cinta / subterránea</td><td class="num dim">170</td><td class="num arm">600</td></tr>
+          <tr><td class="lead">HP divisor</td><td class="num dim">190</td><td class="num arm">670</td></tr>
+          <tr><td class="lead">Resistencia a fuego</td><td class="num dim">50%</td><td class="num arm">95%</td></tr>
+          <tr><td class="lead">Resistencia a explosión</td><td class="num dim">&mdash;</td><td class="num arm">80% / &minus;15</td></tr>
+          <tr><td class="lead">Resistencia física</td><td class="num dim">&mdash;</td><td class="num arm">60% / &minus;8</td></tr>
+          <tr><td class="lead">Resistencia a ácido</td><td class="num dim">&mdash;</td><td class="num arm">60% / &minus;5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note" style="margin-top:1rem">
+      <b>Se retrofitea sin desmontar</b>
+      <span>Conserva <code>fast_replaceable_group</code>, así que se coloca encima de una línea existente. Y lleva <code>next_upgrade</code> vacío a propósito, así que ningún planificador de mejora la mueve de sitio después.</span>
+    </div>
+
+    <div class="prose" style="margin-top:1.4rem">
+      <p>Las recetas usan categoría <code>crafting</code> normal, sin lubricante: <strong>son fabricables a mano</strong>. Reparar la línea en mitad de un ataque no debería exigir volver a la planta química. Una cinta blindada sale de 1 cinta exprés + 4 acero; el desbloqueo pide <code>logistics-3</code> y <code>military-3</code>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Hallazgos</p>
+      <h2>Dos rarezas en los datos de vanilla</h2>
+      <p>Leídas directamente de los prototipos del juego instalado. Ninguna de las dos es conocida por la mayoría de jugadores.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card find">
+        <h3>Mejorar tus cintas las hace más inflamables</h3>
+        <p>La cinta amarilla resiste el fuego al <strong>90%</strong>. En cuanto pasas a roja cae al <strong>50%</strong>, y ahí se queda para siempre: azul y turbo siguen en 50. Es decir, la progresión normal del juego empeora tu resistencia al fuego mientras crees que estás mejorando.</p>
+        <p class="dim">150 HP / 90% &rarr; 160 HP / 50% &rarr; 170 HP / 50% &rarr; 170 HP / 50%</p>
+      </div>
+      <div class="card find">
+        <h3>Ninguna cinta tiene resistencia a explosión</h3>
+        <p>En ningún tier. El campo sencillamente no existe en los prototipos de vanilla. Cualquier daño explosivo &mdash;artillería propia, cohetes, cadenas de explosiones&mdash; entra a tus cintas al 100%.</p>
+      </div>
+    </div>
+
+    <div class="note warn" style="margin-top:1rem">
+      <b>El giro: los biters no hacen daño de fuego ni de explosión</b>
+      <span>Extrayendo el daño ofensivo real de los enemigos, solo aparecen dos tipos: <strong>físico</strong> (mordisco) y <strong>ácido</strong> (escupitajo de spitter y worm). Cero fuego, cero explosión. Así que fuego y explosión no te protegen de los biters &mdash; te protegen de <strong>tu propio fuego amigo</strong>: torretas lanzallamas quemando tu línea, artillería, incendios de árboles. Por eso el mod acabó con las cuatro resistencias y no con las dos de la idea original.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Impacto</p>
+      <h2>Cuánto aguanta de verdad</h2>
+      <p>Golpes necesarios para destruir un tramo, aplicando la fórmula real del juego: <code>(daño &minus; decrease) &times; (1 &minus; percent)</code>.</p>
+    </div>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Enemigo</th>
+            <th class="num">Daño</th>
+            <th class="num">Exprés</th>
+            <th class="num">Blindada</th>
+            <th class="num">Factor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="lead">Biter pequeño</td><td class="num dim">7</td><td class="num dim">24</td><td class="num arm">inmune</td><td class="num arm">&infin;</td></tr>
+          <tr><td class="lead">Wriggler grande</td><td class="num dim">9</td><td class="num dim">19</td><td class="num arm">1500</td><td class="num arm">79,4&times;</td></tr>
+          <tr><td class="lead">Biter mediano</td><td class="num dim">15</td><td class="num dim">11</td><td class="num arm">214</td><td class="num arm">18,9&times;</td></tr>
+          <tr><td class="lead">Biter grande</td><td class="num dim">30</td><td class="num dim">6</td><td class="num arm">68</td><td class="num arm">12,0&times;</td></tr>
+          <tr><td class="lead">Biter behemoth</td><td class="num dim">90</td><td class="num dim">2</td><td class="num arm">18</td><td class="num arm">9,7&times;</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose" style="margin-top:1.2rem">
+      <p>La reducción plana de 8 en daño físico hace que los biters pequeños <strong>no puedan hacerle daño en absoluto</strong>. Como la tecnología exige ciencia de producción y militar, para cuando la tienes los biters pequeños ya no son una amenaza &mdash; así que en la práctica no rompe nada. Bajar ese valor a 4 los devolvería al juego si se busca más tensión.</p>
+      <p>Contra behemoths, que es el número que de verdad importa, se mantiene en <strong>~10&times;</strong>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Arte</p>
+      <h2>De cian a acero sin perder el relieve</h2>
+      <p>El primer intento usó el campo <code>tint</code> de Factorio. No funcionó, y la razón es interesante.</p>
+    </div>
+
+    <div class="prose">
+      <p><code>tint</code> <strong>multiplica</strong> sobre el sprite base, y multiplicar solo puede oscurecer canales, nunca subirlos. Partiendo de un cian saturado &mdash;R bajo, B alto&mdash; no existe ningún valor de tinte que produzca gris neutro. Seguía leyéndose azulado, hiciera lo que hiciera.</p>
+      <p>Analizando los sprites apareció el atajo: <strong>ya son mayormente gris metálico</strong>. Entre el 44% y el 59% de los píxeles opacos tienen saturación por debajo de 0,1. Lo que los hace azules es un acento cian encima de metal oscuro. Así que no había que pasar nada a escala de grises &mdash;eso habría aplanado el relieve del tread y matado la sensación de movimiento&mdash;: bastaba arrancar el croma y <strong>conservar intacta la luminancia</strong>.</p>
+    </div>
+
+    <div class="scroll" style="margin-top:1.2rem">
+      <table>
+        <thead>
+          <tr><th>Medida</th><th class="num">Antes</th><th class="num">Después</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="lead">Saturación media</td><td class="num dim">0,159</td><td class="num arm">0,013</td></tr>
+          <tr><td class="lead">Píxeles con saturación &gt; 0,3</td><td class="num dim">11,8%</td><td class="num arm">0,1%</td></tr>
+          <tr><td class="lead">Luminancia media</td><td class="num dim">0,277</td><td class="num arm">0,294</td></tr>
+          <tr><td class="lead">RGB medio</td><td class="num dim">(76, 68, 65)</td><td class="num arm">(74, 74, 76)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note ok" style="margin-top:1rem">
+      <b>Imposible referenciar un sprite que no existe</b>
+      <span>El script de recoloreado escribe el mapa de rutas de Lua <strong>a partir de los archivos que realmente produjo</strong>. El mod remapea contra ese mapa: una ruta que no está se deja intacta, y una que sí está existe con certeza en disco. Añadir un sprite al script basta para que el Lua lo recoja solo.</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Control de calidad</p>
+      <h2>Tres bugs que no rompían la carga</h2>
+      <p>Ninguno de los tres producía un error. Los tres habrían llegado al jugador.</p>
+    </div>
+
+    <ol class="bugs">
+      <li>
+        <span class="n">01</span>
+        <h3>Cadena de mejora heredada de Space Age</h3>
+        <p>El clonado arrastraba <code>next_upgrade = "turbo-transport-belt"</code>. Habría metido las cintas blindadas en la mejora automática hacia turbo &mdash; exactamente lo contrario de lo buscado.</p>
+      </li>
+      <li>
+        <span class="n">02</span>
+        <h3>Chatarra azul al destruirse</h3>
+        <p>Los prototipos de restos llevan su propio icono, independiente del de la entidad. Sin corregirlo, una cinta blindada destruida dejaba restos con el icono cian de la exprés.</p>
+      </li>
+      <li>
+        <span class="n">03</span>
+        <h3>Referencia colgante tras un refactor</h3>
+        <p>Al reescribir el módulo compartido desapareció la constante de tinte, pero la tecnología seguía usándola. En Lua eso no falla: evalúa a <code>nil</code>. <strong>El icono de investigación se quedaba azul sin tintar</strong> y el validador pasaba sin una queja.</p>
+      </li>
+    </ol>
+
+    <div class="prose" style="margin-top:1.2rem">
+      <p>El tercero es el argumento entero a favor de verificar el resultado y no solo la ausencia de errores.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Método</p>
+      <h2>Cómo se verificó</h2>
+    </div>
+
+    <div class="prose">
+      <p>Factorio admite <code>--dump-data</code>: arranca, procesa todos los prototipos de todos los mods activos, escribe un volcado JSON y sale. Es el chequeo real del data stage sin abrir una partida.</p>
+      <p>Sobre ese volcado de 29 MB se comprobó de forma programática: los valores finales de vida, velocidad y resistencias de las tres entidades; los ingredientes y resultados de las tres recetas; los prerrequisitos y coste de la tecnología; que <strong>los 17 sprites referenciados existen en disco</strong>; y que <strong>no queda ni una sola referencia gráfica a la exprés</strong> en las seis entidades y restos.</p>
+      <p>Resultado: <code>exit 0</code>, cero errores, cargando junto a Space Age y otros 30 mods.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Para compartir</p>
+      <h2>Mensaje corto</h2>
+      <p>Para un chat, un Discord o un mensaje directo. Listo para copiar.</p>
+    </div>
+
+    <div class="share">
+      <div class="copybox">
+        <button class="copybtn" type="button" data-copy="msg">Copiar</button>
+        <pre id="msg">Hice un mod para Factorio: Cintas Transportadoras Blindadas.
+
+Misma velocidad que las cintas exprés, pero blindadas: 600 HP en vez de 170, y resistencia a fuego, explosión, daño físico y ácido. Para las líneas que cruzan zona de combate.
+
+Lo curioso lo encontré revisando los datos del juego: en vanilla, mejorar tus cintas las hace MÁS inflamables. La cinta amarilla resiste el fuego al 90%, pero en cuanto pasas a roja cae al 50% y ahí se queda para siempre. Y ninguna cinta del juego tiene resistencia a explosión, en ningún tier.
+
+Contra un biter behemoth aguanta unas 10 veces más que una exprés. Y como conserva el reemplazo rápido, se coloca encima de tus cintas existentes: puedes blindar una línea del frente sin desmontarla.</pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Para la comunidad</p>
+      <h2>Post largo</h2>
+      <p>Abre por el hallazgo, no por el mod: es lo que hace que la gente lea. Dos versiones &mdash; el portal de mods y Reddit son mayoritariamente en inglés.</p>
+    </div>
+
+    <div class="share">
+      <div class="share-head">
+        <h3>Versión en español</h3>
+        <span class="where">Discord, foros hispanohablantes</span>
+      </div>
+      <div class="copybox">
+        <button class="copybtn" type="button" data-copy="post-es">Copiar</button>
+        <pre id="post-es">Descubrí que en Factorio mejorar tus cintas las hace más inflamables — así que hice un mod
+
+Estaba revisando los prototipos del juego para un mod de cintas blindadas y me encontré con esto:
+
+  cinta amarilla   150 HP   fuego 90%
+  cinta roja       160 HP   fuego 50%   <- baja
+  cinta azul       170 HP   fuego 50%
+  cinta turbo      170 HP   fuego 50%
+
+La cinta básica resiste el fuego al 90%. En cuanto la mejoras a roja, cae al 50% y ahí se queda para siempre. La progresión normal del juego empeora tu resistencia al fuego mientras crees que estás mejorando.
+
+Y hay más: ninguna cinta del juego tiene resistencia a explosión. En ningún tier. El campo sencillamente no existe en los prototipos.
+
+El segundo hallazgo me cambió el diseño del mod. Saqué el daño ofensivo real de los enemigos y solo hay dos tipos: físico (mordisco de biter) y ácido (escupitajo de spitter y worm). Cero fuego, cero explosión. O sea que la resistencia al fuego no te protege de los biters — te protege de TUS PROPIAS torretas lanzallamas quemando tu línea de cintas, de tu artillería y de los incendios de árboles. Que es exactamente lo que se come una línea del frente en la práctica.
+
+Así que el mod acabó con las cuatro resistencias:
+
+  Cintas Transportadoras Blindadas
+  - Misma velocidad que la exprés (0.09375), no es un tier de velocidad
+  - 600 HP por tramo en vez de 170
+  - Fuego 95%, explosión 80%, físico 60%, ácido 60%
+  - Fabricable a mano: 1 cinta exprés + 4 acero
+  - Desbloqueo tras logistics-3 y military-3
+
+Aguanta unas 10 veces más que una exprés contra biters behemoth, 19 veces contra medianos.
+
+Dos decisiones que creo que importan más que los números:
+
+Es una rama lateral, no un tier superior. Con Space Age la cinta turbo ya está por encima de la exprés; hacer la blindada más rápida habría dejado obsoleto un tier entero de la expansión. Conserva la velocidad de la exprés y cambia solo la supervivencia. Eliges entre velocidad y blindaje, no obtienes ambas.
+
+Conserva el reemplazo rápido y no tiene mejora automática. Puedes pasarle la blindada por encima a una línea del frente existente sin desmontar nada, y ningún planificador de mejora te la va a mover después.
+
+Antes de empezar revisé el índice completo del portal (22.942 mods): hay mods que hacen las cintas invencibles con un interruptor, y hay mods que añaden tiers de velocidad, pero ninguno trata la cinta como pieza de infraestructura defensiva. Si me perdí alguno, decídmelo.
+
+Feedback sobre el balance muy bienvenido. Lo que más dudo: la reducción plana de daño físico hace inmunes a los biters pequeños. Como la tecnología es de mitad-final de partida creo que da igual, pero acepto que suena fuerte.</pre>
+      </div>
+
+      <div class="share-head" style="margin-top:1.5rem">
+        <h3>English version</h3>
+        <span class="where">r/factorio, portal de mods, foros oficiales</span>
+      </div>
+      <div class="copybox">
+        <button class="copybtn" type="button" data-copy="post-en">Copiar</button>
+        <pre id="post-en">TIL upgrading your belts makes them MORE flammable — so I made a mod
+
+I was digging through the game's prototypes while building an armored belt mod and found this:
+
+  yellow belt   150 HP   fire 90%
+  red belt      160 HP   fire 50%   <- drops
+  blue belt     170 HP   fire 50%
+  turbo belt    170 HP   fire 50%
+
+The basic yellow belt has 90% fire resistance. The moment you upgrade to red it falls to 50% and stays there forever. The normal progression of the game makes your fire resistance worse while you think you're upgrading.
+
+There's more: no belt in the game has any explosion resistance at all. Not one tier. The field simply doesn't exist in the vanilla prototypes.
+
+The second finding changed my mod's design. I pulled the actual offensive damage types off the enemies and there are only two: physical (biter melee) and acid (spitter and worm spit). No fire, no explosion. Which means fire resistance doesn't protect you from biters — it protects you from YOUR OWN flamethrower turrets torching your belt line, your own artillery, and tree fires. Which is what actually eats a frontline belt in practice.
+
+So the mod ended up with all four resistances:
+
+  Armored Transport Belts
+  - Same speed as express (0.09375) — not a speed tier
+  - 600 HP per segment instead of 170
+  - Fire 95%, explosion 80%, physical 60%, acid 60%
+  - Hand-craftable: 1 express belt + 4 steel
+  - Unlocks after logistics-3 and military-3
+
+It survives roughly 10x longer than express against behemoth biters, 19x against medium ones.
+
+Two design calls I think matter more than the numbers:
+
+It's a side-grade, not a higher tier. With Space Age, turbo belts already sit above express — making armored belts faster would have obsoleted a whole expansion tier. They keep express speed and only change survivability. You trade throughput for armor, you don't get both.
+
+It keeps fast-replace and has no upgrade target. You can lay armored belts straight over an existing frontline without tearing it down, and no upgrade planner will move them afterward.
+
+Before starting I checked the full mod portal index (22,942 mods). There are mods that make belts invincible with a toggle, and mods that add speed tiers, but none that treat the belt as defensive infrastructure. If I missed one, tell me.
+
+Balance feedback very welcome. My main doubt: the flat physical damage reduction makes small biters unable to hurt it at all. The tech is mid-to-late game so I think it's fine in practice, but I'll admit it sounds strong.</pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>Cintas Transportadoras Blindadas &middot; v0.2.0</span>
+  <span>Verificado en Factorio 2.0.77 con Space Age</span>
+</footer>
+
+<script>
+  document.querySelectorAll(".copybtn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var el = document.getElementById(btn.getAttribute("data-copy"));
+      if (!el) return;
+      var text = el.innerText;
+
+      var done = function () {
+        var prev = btn.textContent;
+        btn.textContent = "Copiado";
+        btn.setAttribute("data-done", "1");
+        setTimeout(function () {
+          btn.textContent = prev;
+          btn.removeAttribute("data-done");
+        }, 1800);
+      };
+
+      var fallback = function () {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.top = "-1000px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          done();
+        } catch (e) {
+          // Clipboard unavailable in this context; the text stays selectable.
+          var sel = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          sel.removeAllRanges();
+          sel.addRange(range);
+          btn.textContent = "Selecciona y copia";
+          setTimeout(function () { btn.textContent = "Copiar"; }, 2400);
+        }
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  });
+</script>

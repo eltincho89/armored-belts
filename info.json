@@ -1,0 +1,11 @@
+{
+  "name": "armored-belts",
+  "version": "0.2.1",
+  "title": "Armored Transport Belts",
+  "author": "chait",
+  "factorio_version": "2.0",
+  "description": "A reinforced side-grade of the express belt line, built for frontline combat zones. Same throughput as express belts, but with heavy armor plating: high resistance to fire, explosions, physical bites and acid. Vanilla belts actually get MORE flammable as you upgrade them (yellow has 90% fire resistance, express only 50%) and no vanilla belt has any explosion resistance at all. Armored belts fix that. Sprites are recolored to bare steel/titanium so an armored line is readable at a glance.",
+  "dependencies": [
+    "base >= 2.0"
+  ]
+}
