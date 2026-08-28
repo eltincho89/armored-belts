@@ -23,6 +23,10 @@ def dump():
 def test_dump_fresh(t):
     if not ctx.DUMP_PATH.exists():
         raise Skip("no dump -- run with --dump")
+    if not ctx.is_live_mod_dir():
+        # The dump describes whatever is linked into mods/, so comparing it
+        # against a clone's checkout timestamps proves nothing.
+        raise Skip("this checkout is not the copy the dump was built from")
     dump_mtime = ctx.DUMP_PATH.stat().st_mtime
     stale = []
     for path in ctx.MOD_DIR.rglob("*"):

@@ -7,7 +7,7 @@ broken info.json or a missing translation before a five-minute data dump.
 import json
 import re
 
-from harness import test
+from harness import test, Skip
 import context as ctx
 
 SUITE = "manifest"
@@ -22,7 +22,10 @@ def test_info(t):
 
     # The folder name must equal the mod name or Factorio refuses to load it.
     t.eq(info.get("name"), ctx.MOD_NAME, "name matches the mod folder")
-    t.eq(ctx.MOD_DIR.name, ctx.MOD_NAME, "folder is named after the mod")
+    # Factorio refuses a mod whose folder name differs from info.json, but a
+    # clone can sit in any directory, so this only binds the installed copy.
+    if ctx.is_live_mod_dir():
+        t.eq(ctx.MOD_DIR.name, ctx.MOD_NAME, "folder is named after the mod")
     t.true(re.fullmatch(r"\d+\.\d+\.\d+", info.get("version", "")),
            "version is major.minor.patch", "got %r" % info.get("version"))
     t.eq(info.get("factorio_version"), "2.0", "targets Factorio 2.0")
@@ -88,7 +91,9 @@ def test_locale(t):
 def test_installed(t):
     link = ctx.MODS_DIR / ctx.MOD_NAME
     if not link.exists():
-        raise __import__("harness").Skip("%s is not linked into the mods folder" % ctx.MOD_NAME)
+        raise Skip("%s is not linked into the mods folder" % ctx.MOD_NAME)
+    if not ctx.is_live_mod_dir():
+        raise Skip("this checkout is not the copy linked into mods/")
     t.eq(link.resolve(), ctx.MOD_DIR,
          "mods/%s resolves to the working directory" % ctx.MOD_NAME)
 

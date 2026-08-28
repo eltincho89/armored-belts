@@ -282,6 +282,11 @@ sigue existiendo en `base` —si Factorio lo renombra, el remapeo no falla, se
 queda callado y la cinta vuelve a ser azul— y otro que ninguna cinta de vanilla
 ha ganado resistencia a explosión, que es la razón de ser del mod.
 
+La suite corre igual desde el directorio enlazado a `mods/` que desde un clon
+limpio: los dos únicos tests que describen la *instalación* y no el mod —el
+junction y la frescura del volcado— se saltan solos fuera de la copia viva, en
+vez de fallar y tapar un fallo de verdad.
+
 La suite se validó con **mutación**: se sabotearon seis campos de una copia del
 volcado (vida, `next_upgrade`, resistencias, un ingrediente, un prerrequisito y
 un icono de corpse) y los seis fueron detectados, varios por más de un test.

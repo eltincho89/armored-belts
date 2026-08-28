@@ -19,6 +19,19 @@ USER_DIR = Path(os.environ.get(
 DUMP_PATH = USER_DIR / "script-output" / "data-raw-dump.json"
 MODS_DIR = USER_DIR / "mods"
 
+
+def is_live_mod_dir():
+    """True when this checkout is the one the game loads from mods/.
+
+    The suite is meant to run both from the linked working directory and from
+    a plain clone. Checks that describe the *installation* rather than the mod
+    are skipped in a clone, where they would only ever report the obvious.
+    """
+    try:
+        return (MODS_DIR / MOD_NAME).resolve() == MOD_DIR
+    except OSError:
+        return False
+
 # The three entities, their data.raw type, and the express prototype each was
 # cloned from. Everything else in the suite is derived from this table.
 ENTITIES = [
