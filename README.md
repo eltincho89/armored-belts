@@ -3,7 +3,7 @@
 Mod para **Factorio 2.0** (compatible con Space Age). Rama lateral blindada de la
 línea exprés, pensada para zonas de combate frontal contra Biters.
 
-- **Versión:** 0.2.1
+- **Versión:** 0.2.2
 - **Probado en:** Factorio 2.0.77 (build 84539, win64, steam, space-age)
 - **Dependencias:** `base >= 2.0`
 
@@ -145,6 +145,14 @@ Las tres entidades salen de `table.deepcopy` de sus equivalentes exprés. Puntos
 de conexión, sonidos, timings de animación y definiciones de conector de
 circuito vienen gratis y correctos. Solo se sustituyen nombre, iconos, vida,
 resistencias, corpse y las rutas de sprites.
+
+El clonado también trae cosas que hay que revisar, no solo las que se
+esperan. El ítem exprés lleva `color_hint.text = "3"` -- el número de tier de
+cinta que vanilla usa para una pantalla de accesibilidad por número en vez de
+color -- y el `deepcopy` lo hereda tal cual. Como blindada no es un tier de
+velocidad, dejarlo habría marcado la cinta blindada como "tier 3", lo mismo
+que la exprés. Se pone en `nil` explícito en `items.lua` para que ese modo no
+la etiquete con un número que no le corresponde.
 
 ---
 

@@ -8,7 +8,11 @@ local function clone_item(source_name, new_name, order)
   item.icon = nil
   item.place_result = new_name
   item.order = order
-  item.color_hint = {text = "A"}
+  -- The cloned express item inherits color_hint.text = "3" (vanilla's belt
+  -- tier number, shown by the tier-number accessibility display). Armored
+  -- is not a speed tier, so that number would be misleading; strip it rather
+  -- than leave a "3" that implies same-tier as express.
+  item.color_hint = nil
 
   return item
 end
