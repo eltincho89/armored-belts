@@ -1,337 +1,339 @@
-# Cintas Transportadoras Blindadas (`armored-belts`)
+# Armored Transport Belts (`armored-belts`)
 
-Mod para **Factorio 2.0** (compatible con Space Age). Rama lateral blindada de la
-línea exprés, pensada para zonas de combate frontal contra Biters.
+Mod for **Factorio 2.0** (Space Age compatible). An armored side-branch of the
+express belt line, built for frontline combat zones against Biters.
 
-- **Versión:** 0.2.2
-- **Probado en:** Factorio 2.0.77 (build 84539, win64, steam, space-age)
-- **Dependencias:** `base >= 2.0`
-
----
-
-## 1. Qué es
-
-Tres entidades nuevas —cinta, cinta subterránea y divisor— con **exactamente el
-mismo rendimiento que las exprés** pero con blindaje pesado. No es un tier
-superior de velocidad: es una variante defensiva que se elige, no una mejora que
-sustituye.
-
-| | Blindada | Exprés (vanilla) |
-|---|---|---|
-| Velocidad | 0.09375 | 0.09375 |
-| HP cinta / subterránea | **600** | 170 |
-| HP divisor | **670** | 190 |
-| Resistencia fuego | **95%** | 50% |
-| Resistencia explosión | **80% / −15** | ninguna |
-| Resistencia física | **60% / −8** | ninguna |
-| Resistencia ácido | **60% / −5** | ninguna |
-
-Las resistencias se **fusionan** sobre las de la entidad clonada, no la
-sustituyen: la subterránea exprés trae un 30% de resistencia a impacto en
-vanilla y la blindada lo conserva. Por tipo gana el valor más alto, así que la
-blindada nunca puede quedar peor que la exprés en nada.
-
-### Receta y desbloqueo
-
-Categoría `crafting` normal, **sin lubricante**: son fabricables a mano. Reparar
-la línea en mitad de un ataque no debería exigir volver a la planta química.
-
-| Receta | Ingredientes | Sale |
-|---|---|---|
-| Cinta blindada | 1 cinta exprés + 4 acero | 1 |
-| Subterránea blindada | 2 subterráneas exprés + 10 acero | 2 |
-| Divisor blindado | 1 divisor exprés + 8 acero | 1 |
-
-Tecnología `armored-belts`: **200 × 30 s**, prerrequisitos `logistics-3` +
-`military-3`, packs automation / logistic / military / chemical / production.
+- **Version:** 0.2.2
+- **Tested on:** Factorio 2.0.77 (build 84539, win64, steam, space-age)
+- **Dependencies:** `base >= 2.0`
 
 ---
 
-## 2. Investigación previa: ¿ya existía?
+## 1. What it is
 
-Se descargó el índice completo de la API del portal (**22.942 mods**) y se
-filtró localmente. El buscador web del portal se renderiza con JS y no es
-consultable por HTTP directo; el endpoint `query` de la API lo ignora y devuelve
-el listado alfabético completo. De ahí el volcado + filtrado local.
+Three new entities — belt, underground belt and splitter — with **exactly the
+same throughput as express** but heavily armored. It's not a higher-speed
+tier: it's a defensive variant you choose, not an upgrade that replaces
+anything.
 
-**No existe ningún mod que combine un tier nuevo de cinta con resistencias de
-combate.** Lo más cercano:
+| | Armored | Express (vanilla) |
+|---|---|---|
+| Speed | 0.09375 | 0.09375 |
+| Belt / underground HP | **600** | 170 |
+| Splitter HP | **670** | 190 |
+| Fire resistance | **95%** | 50% |
+| Explosion resistance | **80% / −15** | none |
+| Physical resistance | **60% / −8** | none |
+| Acid resistance | **60% / −5** | none |
 
-| Mod | Descargas | Qué hace | Por qué no cubre esto |
+Resistances are **merged** onto whatever the cloned entity already has,
+not replaced: express underground belts carry 30% impact resistance in
+vanilla, and the armored one keeps it. The higher value wins per damage type,
+so armored can never end up worse than express at anything.
+
+### Recipe and unlock
+
+Plain `crafting` category, **no lubricant**: hand-craftable. Repairing the
+line mid-attack shouldn't require a trip back to the chemical plant.
+
+| Recipe | Ingredients | Yields |
+|---|---|---|
+| Armored belt | 1 express belt + 4 steel | 1 |
+| Armored underground belt | 2 express underground belts + 10 steel | 2 |
+| Armored splitter | 1 express splitter + 8 steel | 1 |
+
+Technology `armored-belts`: **200 × 30 s**, prerequisites `logistics-3` +
+`military-3`, automation / logistic / military / chemical / production packs.
+
+---
+
+## 2. Prior research: did this already exist?
+
+The portal's full API index (**22,942 mods**) was downloaded and filtered
+locally. The portal's web search is rendered with JS and can't be queried
+over plain HTTP; the API's `query` endpoint ignores it and returns the full
+alphabetical listing instead. Hence the dump + local filter.
+
+**No mod combines a new belt tier with combat resistances.** The closest
+matches:
+
+| Mod | Downloads | What it does | Why it doesn't cover this |
 |---|---|---|---|
-| `Invulnerable-Belts` | 129 | Todas las cintas indestructibles | Interruptor on/off, sin gradación ni coste. Factorio 1.1, abandonado |
-| `biterproof` | 3,18 K | Invencibilidad por filtros de entidad | Igual: binario, no es algo que te ganes |
-| `UltimateBelts` / `AdvancedBelts` / `BetterBelts` | 54 K / 21 K / 15 K | Tiers extra de cinta | **Solo velocidad.** Ninguno toca `max_health` ni `resistances` |
+| `Invulnerable-Belts` | 129 | All belts indestructible | On/off switch, no gradation or cost. Factorio 1.1, abandoned |
+| `biterproof` | 3.18K | Invincibility via entity filters | Same problem: binary, not something you earn |
+| `UltimateBelts` / `AdvancedBelts` / `BetterBelts` | 54K / 21K / 15K | Extra belt tiers | **Speed only.** None touch `max_health` or `resistances` |
 
-El nicho está libre: nadie ha tratado la cinta como **pieza de infraestructura
-defensiva** en lugar de como tubo de throughput.
-
----
-
-## 3. Dos hallazgos en los datos de vanilla
-
-Leídos de `base/prototypes/entity/transport-belts.lua` de la instalación local.
-
-### 3.1 Mejorar tus cintas las hace MÁS inflamables
-
-```
-transport-belt          150 HP    fuego 90%
-fast-transport-belt     160 HP    fuego 50%   <- baja
-express-transport-belt  170 HP    fuego 50%
-turbo-transport-belt    170 HP    fuego 50%   (Space Age)
-```
-
-La cinta amarilla resiste el fuego al 90%. En cuanto pasas a roja cae al 50% y
-ahí se queda para siempre. Además, **ninguna cinta del juego tiene resistencia a
-explosión**: el campo sencillamente no existe en ningún tier.
-
-### 3.2 Los biters no hacen daño de fuego ni de explosión
-
-Verificado extrayendo el daño ofensivo real de `enemies.lua` y
-`enemy-projectiles.lua`: los enemigos solo hacen **físico** (mordisco) y
-**ácido** (escupitajo de spitter/worm). Cero fuego, cero explosión.
-
-Consecuencia de diseño: fuego y explosión **no** protegen de los biters,
-protegen de **tu propio fuego amigo** — torretas lanzallamas quemando tu línea,
-artillería, cohetes, incendios de árboles. Por eso el mod lleva las cuatro
-resistencias y no solo las dos que pedía la idea original.
+The niche is wide open: nobody has treated the belt as a **piece of
+defensive infrastructure** rather than a throughput pipe.
 
 ---
 
-## 4. Efecto real en combate
+## 3. Two findings in the vanilla data
 
-Golpes necesarios para destruir un tramo, aplicando la fórmula real del juego
-`daño_final = (daño − decrease) × (1 − percent)`:
+Read from the local install's `base/prototypes/entity/transport-belts.lua`.
 
-| Enemigo | Daño | Tipo | Exprés | Blindada | Factor |
+### 3.1 Upgrading your belts makes them MORE flammable
+
+```
+transport-belt          150 HP    fire 90%
+fast-transport-belt     160 HP    fire 50%   <- drops
+express-transport-belt  170 HP    fire 50%
+turbo-transport-belt    170 HP    fire 50%   (Space Age)
+```
+
+The yellow belt resists fire at 90%. The moment you move to red it falls to
+50% and stays there forever. On top of that, **no belt in the game has any
+explosion resistance**: the field simply doesn't exist at any tier.
+
+### 3.2 Biters deal no fire or explosion damage
+
+Verified by pulling the actual offensive damage out of `enemies.lua` and
+`enemy-projectiles.lua`: enemies only deal **physical** (melee bite) and
+**acid** (spitter/worm spit) damage. Zero fire, zero explosion.
+
+Design consequence: fire and explosion resistance do **not** protect against
+biters — they protect against **your own friendly fire**: flamethrower
+turrets torching your line, artillery, rockets, tree fires. That's why the mod
+carries all four resistances instead of just the two the original idea called
+for.
+
+---
+
+## 4. Real combat effect
+
+Hits needed to destroy a belt segment, applying the game's actual formula
+`final_damage = (damage − decrease) × (1 − percent)`:
+
+| Enemy | Damage | Type | Express | Armored | Factor |
 |---|---|---|---|---|---|
-| Wriggler pequeño / mediano | 3,75 / 5,5 | físico | 45 / 31 | **inmune** | ∞ |
-| Biter pequeño | 7 | físico | 24 | **inmune** | ∞ |
-| Wriggler grande | 9 | físico | 19 | 1500 | 79,4× |
-| Biter mediano | 15 | físico | 11 | 214 | 18,9× |
-| Biter grande | 30 | físico | 6 | 68 | 12,0× |
-| Biter behemoth | 90 | físico | 2 | 18 | **9,7×** |
+| Small / medium wriggler | 3.75 / 5.5 | physical | 45 / 31 | **immune** | ∞ |
+| Small biter | 7 | physical | 24 | **immune** | ∞ |
+| Big wriggler | 9 | physical | 19 | 1500 | 79.4× |
+| Medium biter | 15 | physical | 11 | 214 | 18.9× |
+| Big biter | 30 | physical | 6 | 68 | 12.0× |
+| Behemoth biter | 90 | physical | 2 | 18 | **9.7×** |
 
-El `decrease = 8` de físico hace que los biters pequeños **no puedan hacerle
-daño en absoluto**. Como la tecnología exige `logistics-3` + `military-3` +
-ciencia de producción, para cuando la tienes los biters pequeños ya no son una
-amenaza, así que en la práctica no rompe nada. Si aun así parece excesivo, bajar
-`decrease` a 4 los devuelve al juego.
+The physical `decrease = 8` means small biters **can't damage it at all**.
+Since the technology requires `logistics-3` + `military-3` + production
+science, by the time you have it small biters are no longer a threat, so in
+practice this breaks nothing. If it still feels excessive, dropping
+`decrease` to 4 puts them back in the game.
 
-Contra behemoths —el número que de verdad importa— sigue siendo **~10×**.
-
----
-
-## 5. Decisiones de diseño
-
-### Rama lateral, no tier superior
-
-Con Space Age instalado, la cinta turbo está por encima de la exprés. Hacer la
-blindada más rápida que la turbo habría dejado obsoleto un tier entero de la
-expansión. En su lugar:
-
-- Misma velocidad que la exprés.
-- **`next_upgrade = nil`**, así los planificadores de mejora la dejan en paz.
-- **`fast_replaceable_group = "transport-belt"` conservado**, así una línea
-  frontal existente se retrofitea pasándole la blindada por encima, sin
-  desmontar nada.
-
-Esas dos propiedades juntas son la clave de la ergonomía del mod: se coloca
-encima de lo que ya tienes, y nada la mueve de sitio después.
-
-### Clonado en vez de reescritura
-
-Las tres entidades salen de `table.deepcopy` de sus equivalentes exprés. Puntos
-de conexión, sonidos, timings de animación y definiciones de conector de
-circuito vienen gratis y correctos. Solo se sustituyen nombre, iconos, vida,
-resistencias, corpse y las rutas de sprites.
-
-El clonado también trae cosas que hay que revisar, no solo las que se
-esperan. El ítem exprés lleva `color_hint.text = "3"` -- el número de tier de
-cinta que vanilla usa para una pantalla de accesibilidad por número en vez de
-color -- y el `deepcopy` lo hereda tal cual. Como blindada no es un tier de
-velocidad, dejarlo habría marcado la cinta blindada como "tier 3", lo mismo
-que la exprés. Se pone en `nil` explícito en `items.lua` para que ese modo no
-la etiquete con un número que no le corresponde.
+Against behemoths — the number that actually matters — it's still **~10×**.
 
 ---
 
-## 6. Gráficos: gris acero / titanio
+## 5. Design decisions
 
-### Por qué no bastaba un tinte
+### Side-branch, not a higher tier
 
-El campo `tint` de Factorio **multiplica** sobre el sprite base, y multiplicar
-solo puede oscurecer canales, nunca subirlos. Partiendo de un cian saturado (R
-bajo, B alto) **no existe ningún valor de tinte que produzca gris neutro**. Un
-primer intento con tinte gunmetal seguía leyéndose azulado, precisamente por
-esto.
+With Space Age installed, the turbo belt sits above express. Making armored
+faster than turbo would have obsoleted a whole expansion tier. Instead:
 
-### El hallazgo que simplificó todo
+- Same speed as express.
+- **`next_upgrade = nil`**, so upgrade planners leave it alone.
+- **`fast_replaceable_group = "transport-belt"` kept**, so an existing
+  frontline can be retrofitted by laying armored over it, without tearing
+  anything down.
 
-El análisis de los sprites reveló que **ya son mayormente gris metálico**: entre
-el 44% y el 59% de los píxeles opacos tienen saturación < 0,1. Lo que los hace
-azules es un acento **cian (hue ≈ 180°)** encima de metal oscuro.
+Those two properties together are the key to the mod's ergonomics: it drops
+on top of what you already have, and nothing moves it afterward.
 
-Así que no hacía falta pasar nada a escala de grises —eso habría aplanado el
-tread y matado la sensación de movimiento—. Bastaba **arrancar el croma y
-conservar intacta la luminancia**.
+### Cloning instead of rewriting
 
-### Resultado medido
+All three entities come from a `table.deepcopy` of their express
+counterparts. Connection points, sounds, animation timings and circuit
+connector definitions come along for free and correct. Only name, icons,
+health, resistances, corpse and sprite paths get swapped.
 
-| | Antes | Después |
+Cloning also brings along things that need checking, not just the ones you
+expect. The express item carries `color_hint.text = "3"` — the belt tier
+number vanilla uses for a number-based accessibility display in place of
+color — and the `deepcopy` inherits it unchanged. Since armored isn't a speed
+tier, leaving it would have tagged the armored belt as "tier 3", the same as
+express. It's set to explicit `nil` in `items.lua` so that display mode
+doesn't label it with a number that doesn't apply.
+
+---
+
+## 6. Graphics: steel gray / titanium
+
+### Why a tint alone wasn't enough
+
+Factorio's `tint` field **multiplies** over the base sprite, and multiplying
+can only darken channels, never lift them. Starting from a saturated cyan (low
+R, high B), **no tint value produces neutral gray**. A first attempt with a
+gunmetal tint still read as blueish, for exactly this reason.
+
+### The finding that simplified everything
+
+Analyzing the sprites showed they're **already mostly metallic gray**:
+between 44% and 59% of opaque pixels have saturation < 0.1. What makes them
+read as blue is a **cyan accent (hue ≈ 180°)** on top of dark metal.
+
+So there was no need to push anything to grayscale — that would have
+flattened the tread and killed the sense of motion. It was enough to **strip
+the chroma while keeping luminance intact**.
+
+### Measured result
+
+| | Before | After |
 |---|---|---|
-| Saturación media | 0,159 | **0,013** |
-| Píxeles con saturación > 0,3 | 11,8% | **0,1%** |
-| Luminancia media | 0,277 | 0,294 *(+6%)* |
-| RGB medio | (76, 68, 65) | **(74, 74, 76)** |
+| Mean saturation | 0.159 | **0.013** |
+| Pixels with saturation > 0.3 | 11.8% | **0.1%** |
+| Mean luminance | 0.277 | 0.294 *(+6%)* |
+| Mean RGB | (76, 68, 65) | **(74, 74, 76)** |
 
-Neutro con un matiz frío mínimo. Acero, no azul ni gris sucio. Y el detalle
-mecánico intacto, porque la luminancia nunca se tocó.
+Neutral with a minimal cool cast. Steel, not blue or dirty gray. And the
+mechanical detail stays intact, because luminance was never touched.
 
-### El pipeline
+### The pipeline
 
-`tools/recolor.py` genera **17 sprites** desde los PNG de vanilla: cinta,
-subterránea (estructura + 2 patches), divisor (4 direcciones + 2 top patches),
-3 iconos de item, icono de tecnología y **los 3 prototipos de restos** — sin
-esto, una cinta blindada destruida dejaba chatarra azul en el suelo.
+`tools/recolor.py` generates **17 sprites** from the vanilla PNGs: belt,
+underground belt (structure + 2 patches), splitter (4 directions + 2 top
+patches), 3 item icons, the technology icon, and **the 3 corpse
+prototypes** — without those, a destroyed armored belt would leave blue
+express wreckage on the ground.
 
-Constantes ajustables al principio del script:
+Tunable constants at the top of the script:
 
 ```python
-DESAT    = 0.92                   # 1.0 = gris totalmente neutro
-CONTRAST = 0.12                   # smoothstep, mantiene el chapado nítido
-LIFT     = 1.10                   # gamma de medios; el metal desnudo lee más claro
-TINT     = (0.965, 0.978, 1.000)  # matiz frío mínimo -> acero, no cálido
+DESAT    = 0.92                   # 1.0 = fully neutral gray
+CONTRAST = 0.12                   # smoothstep, keeps plating crisp
+LIFT     = 1.10                   # midtone gamma; bare metal reads brighter
+TINT     = (0.965, 0.978, 1.000)  # faint cool cast -> steel, not warm
 ```
 
-Se usa **lightness HSL** `(max+min)/2` en vez de luma perceptual
-`0.21/0.72/0.07`: con luma, un cian saturado colapsaría a gris oscuro y se
-perdería el brillo aparente de los chevrones.
+**HSL lightness** `(max+min)/2` is used instead of perceptual luma
+`0.21/0.72/0.07`: with luma, a saturated cyan would collapse to dark gray and
+lose the apparent brightness of the chevrons.
 
-Para re-afinar el color basta con tocar las constantes y ejecutar:
+Re-tuning the color is just a matter of tweaking the constants and running:
 
 ```
 python tools/recolor.py
 ```
 
-### Sincronización a prueba de fallos
+### Fail-proof syncing
 
-El script escribe `prototypes/graphics-map.lua` **a partir de los archivos que
-realmente produjo**. El Lua remapea rutas contra ese mapa recorriendo el
-prototipo clonado: una ruta que no esté en el mapa se deja intacta, y una que sí
-esté existe con certeza en disco.
+The script writes `prototypes/graphics-map.lua` **from the files it actually
+produced**. The Lua remaps paths against that map while walking the cloned
+prototype: a path not in the map is left untouched, and one that is in it is
+guaranteed to exist on disk.
 
-Consecuencia: **es imposible que un prototipo apunte a un sprite inexistente**.
-Si se añade un sprite al script, el Lua lo recoge solo.
-
----
-
-## 7. Bugs detectados durante el desarrollo
-
-Los tres eran silenciosos: ninguno hacía fallar la carga.
-
-1. **`next_upgrade` heredado.** El `deepcopy` de la exprés arrastraba
-   `next_upgrade = "turbo-transport-belt"` de Space Age. Habría metido las
-   cintas blindadas en la cadena de mejora automática, justo lo contrario de lo
-   que se buscaba. → puesto a `nil`.
-
-2. **Restos con icono azul.** Los prototipos `corpse` llevan su propio campo
-   `icon`, independiente del de la entidad. Sin corregirlo, la entrada de
-   chatarra en Factoriopedia seguía mostrando el icono cian de la exprés.
-   → `corpse.icons` reasignado.
-
-3. **`shared.tint` colgante.** Al reescribir `shared.lua` para el enfoque de
-   remapeo desapareció `shared.tint`, pero `technology.lua` seguía
-   referenciándolo. En Lua eso no falla: evalúa a `nil`. **El icono de
-   investigación se estaba quedando azul sin tintar** y `--dump-data` pasaba sin
-   una queja. → resuelto metiendo `logistics-3.png` en el propio pipeline de
-   recoloreado.
-
-4. **Resistencias sobrescritas en bloque.** Asignar `entity.resistances`
-   entero descartaba lo que la entidad clonada ya traía. Las subterráneas
-   exprés tienen **30% de resistencia a impacto** en vanilla, así que la
-   subterránea blindada quedaba *más* frágil que la exprés frente a
-   colisiones de vehículos — justo lo contrario de lo que promete una rama
-   lateral blindada. Lo detectó `tools/run_tests.py`, no una lectura del
-   código. → `shared.apply_resistances()` fusiona y se queda con el máximo por
-   tipo de daño.
-
-El tercero es el argumento a favor de verificar el resultado y no solo la
-ausencia de errores. El cuarto lo es a favor de tener tests: nada fallaba, nada
-se veía mal, y aun así el mod incumplía su propia premisa.
+Consequence: **a prototype can never point at a sprite that doesn't exist**.
+Add a sprite to the script, and the Lua picks it up on its own.
 
 ---
 
-## 8. Verificación automatizada
+## 7. Bugs found during development
+
+The first three were silent: none of them failed the load.
+
+1. **Inherited `next_upgrade`.** The express `deepcopy` carried over
+   `next_upgrade = "turbo-transport-belt"` from Space Age. It would have
+   pulled armored belts into the automatic upgrade chain, exactly the
+   opposite of what was intended. → set to `nil`.
+
+2. **Wreckage with a blue icon.** `corpse` prototypes carry their own `icon`
+   field, independent of the entity's. Without fixing it, the wreckage entry
+   in Factoriopedia kept showing the express's cyan icon. → `corpse.icons`
+   reassigned.
+
+3. **Dangling `shared.tint`.** Rewriting `shared.lua` for the remap approach
+   removed `shared.tint`, but `technology.lua` still referenced it. In Lua
+   that doesn't fail: it evaluates to `nil`. **The research icon was
+   quietly staying untinted blue** and `--dump-data` passed without a
+   complaint. → fixed by folding `logistics-3.png` into the recolor pipeline
+   itself.
+
+4. **Resistances overwritten wholesale.** Assigning `entity.resistances`
+   outright discarded whatever the cloned entity already had. Express
+   underground belts carry **30% impact resistance** in vanilla, so the
+   armored underground belt ended up *more* fragile than express against
+   vehicle collisions — exactly the opposite of what an armored side-branch
+   promises. `tools/run_tests.py` caught it, not a code read. →
+   `shared.apply_resistances()` merges and keeps the higher value per damage
+   type.
+
+The third is the argument for verifying the result and not just the absence
+of errors. The fourth is the argument for having tests: nothing failed,
+nothing looked wrong, and the mod still broke its own premise.
+
+---
+
+## 8. Automated verification
 
 ```
-python tools/run_tests.py            # todo, contra el volcado actual
-python tools/run_tests.py --dump     # relanza el data stage y luego testea
-python tools/run_tests.py -k balance # una sola suite
-python tools/run_tests.py -v         # lista cada aserción
+python tools/run_tests.py            # everything, against the current dump
+python tools/run_tests.py --dump     # relaunches the data stage, then tests
+python tools/run_tests.py -k balance # a single suite
+python tools/run_tests.py -v         # lists every assertion
 ```
 
-**333 aserciones en 30 tests**, cuatro suites, sin dependencias más allá de
-Pillow y numpy (que ya pide `recolor.py`). No hay pytest: el harness son 133
-líneas en `tools/tests/harness.py`, para que la suite corra con un `python`
-pelado. Las aserciones se registran en vez de lanzar excepción, así un valor
-malo reporta un fallo y no aborta el resto.
+**333 assertions across 30 tests**, four suites, no dependencies beyond
+Pillow and numpy (already required by `recolor.py`). No pytest: the harness
+is 133 lines in `tools/tests/harness.py`, so the suite runs with a bare
+`python`. Assertions are recorded rather than raised, so one bad value
+reports a failure instead of aborting the rest.
 
-| Suite | Qué cubre |
+| Suite | What it covers |
 |---|---|
-| `manifest` | `info.json`, cada `require()` resuelve, claves de locale en los dos idiomas (sin huérfanas, sin duplicadas, sin español copiado del inglés), junction y activación en `mod-list.json` |
-| `graphics` | los 17 sprites en ambos sentidos (nada en el mapa sin PNG, ningún PNG fuera del mapa), **el origen vanilla sigue existiendo**, dimensiones idénticas, canal alfa intacto bit a bit, y las cifras de color del §6 recalculadas |
-| `data stage` | vida, velocidad, resistencias, `next_upgrade`, corpses, items, recetas, tecnología, que todo sprite referenciado existe en disco y que **vanilla queda sin tocar** |
-| `balance` | daño enemigo extraído del volcado siguiendo streams y proyectiles, la tabla del §4 recalculada, y la premisa del §3 revalidada contra los datos del juego |
+| `manifest` | `info.json`, every `require()` resolves, locale keys in both languages (no orphans, no duplicates, no Spanish left copied from English), the junction and its activation in `mod-list.json` |
+| `graphics` | all 17 sprites in both directions (nothing in the map without a PNG, no PNG outside the map), **the vanilla source still exists**, identical dimensions, alpha channel intact bit-for-bit, and the §6 color figures recomputed |
+| `data stage` | health, speed, resistances, `next_upgrade`, corpses, items, recipes, technology, that every referenced sprite exists on disk, and that **vanilla is left untouched** |
+| `balance` | enemy damage pulled from the dump by following streams and projectiles, the §4 table recomputed, and the §3 premise re-validated against the game's own data |
 
-Dos tests merecen mención aparte porque no comprueban el mod sino sus
-**supuestos**: uno verifica que el sprite exprés del que parte cada recoloreado
-sigue existiendo en `base` —si Factorio lo renombra, el remapeo no falla, se
-queda callado y la cinta vuelve a ser azul— y otro que ninguna cinta de vanilla
-ha ganado resistencia a explosión, que es la razón de ser del mod.
+Two tests deserve a separate mention because they check the mod's
+**assumptions**, not the mod itself: one verifies that the express sprite
+each recolor starts from still exists in `base` — if Factorio renames it, the
+remap doesn't fail, it stays silent and the belt goes back to being blue —
+and another that no vanilla belt has gained explosion resistance, which is
+the mod's entire reason for existing.
 
-La suite corre igual desde el directorio enlazado a `mods/` que desde un clon
-limpio: los dos únicos tests que describen la *instalación* y no el mod —el
-junction y la frescura del volcado— se saltan solos fuera de la copia viva, en
-vez de fallar y tapar un fallo de verdad.
+The suite runs the same from the directory linked into `mods/` as from a
+plain clone: the two tests that describe the *installation* rather than the
+mod — the junction and dump freshness — skip themselves outside the live
+copy instead of failing and masking a real failure.
 
-La suite se validó con **mutación**: se sabotearon seis campos de una copia del
-volcado (vida, `next_upgrade`, resistencias, un ingrediente, un prerrequisito y
-un icono de corpse) y los seis fueron detectados, varios por más de un test.
+The suite was validated by **mutation**: six fields were sabotaged in a copy
+of the dump (health, `next_upgrade`, resistances, an ingredient, a
+prerequisite, and a corpse icon), and all six were caught, several by more
+than one test.
 
-### El data stage real
+### The real data stage
 
 ```
 Factorio.exe --dump-data
 ```
 
-Arranca el juego, procesa todos los prototipos de todos los mods activos,
-escribe `script-output/data-raw-dump.json` y sale. Es el chequeo real del data
-stage sin abrir una partida.
+Boots the game, processes every prototype from every active mod, writes
+`script-output/data-raw-dump.json`, and exits. It's the real data-stage check
+without opening a save.
 
-Sobre ese volcado de 29 MB se comprobó programáticamente:
+Against that 29 MB dump, the following was checked programmatically:
 
-- Valores finales de vida, velocidad, resistencias y `next_upgrade` de las tres
-  entidades.
-- Ingredientes, resultados y estado de las tres recetas.
-- Prerrequisitos, efectos y coste de la tecnología.
-- Que las 4 definiciones de icono tienen la forma esperada.
-- Que **los 17 sprites referenciados existen en disco**.
-- Que **no queda ni una sola referencia gráfica a la exprés** en las 6 entidades
-  y corpses (solo permanecen los `.ogg`, intencionado: el sonido exprés
-  corresponde a esa velocidad).
+- Final health, speed, resistance and `next_upgrade` values for the three
+  entities.
+- Ingredients, results and enabled state of the three recipes.
+- Prerequisites, effects and cost of the technology.
+- That the 4 icon definitions have the expected shape.
+- That **the 17 referenced sprites exist on disk**.
+- That **not a single graphical reference to express survives** across the 6
+  entities and corpses (only the `.ogg` files remain, intentionally: the
+  express sound matches that speed).
 
-Resultado final: `exit 0`, `Factorio initialised` → `Goodbye`, cero errores,
-cargando junto a Space Age y otros 30 mods.
+Final result: `exit 0`, `Factorio initialised` → `Goodbye`, zero errors,
+loading alongside Space Age and 30 other mods.
 
-> Nota: `--dump-icon-sprites` existe pero no escribe nada sin contexto gráfico.
-> Los previews de comparación se generaron replicando en Python la matemática de
-> capas de iconos de Factorio (espacio de referencia 32 px, `scale` por defecto
-> `32/icon_size`, `shift` en píxeles desde el centro).
+> Note: `--dump-icon-sprites` exists but writes nothing without graphical
+> context. The comparison previews were generated by replicating Factorio's
+> icon-layer math in Python (32px reference space, default `scale` of
+> `32/icon_size`, `shift` in pixels from center).
 
 ---
 
-## 9. Estructura del proyecto
+## 9. Project structure
 
 ```
 armored-belts/
@@ -339,9 +341,9 @@ armored-belts/
 ├── data.lua
 ├── README.md
 ├── prototypes/
-│   ├── shared.lua           resistencias, vidas, remapeo de sprites, iconos
-│   ├── graphics-map.lua     GENERADO por recolor.py -- no editar a mano
-│   ├── entities.lua         clonado de las 3 entidades + 3 corpses
+│   ├── shared.lua           resistances, health, sprite remapping, icons
+│   ├── graphics-map.lua     GENERATED by recolor.py -- do not edit by hand
+│   ├── entities.lua         clones the 3 entities + 3 corpses
 │   ├── items.lua
 │   ├── recipes.lua
 │   └── technology.lua
@@ -349,44 +351,44 @@ armored-belts/
 │   ├── en/strings.cfg
 │   └── es-ES/strings.cfg
 ├── graphics/
-│   ├── entity/              cinta, subterránea, divisor (+ restos)
-│   ├── icons/               3 iconos de item
+│   ├── entity/              belt, underground belt, splitter (+ remnants)
+│   ├── icons/               3 item icons
 │   └── technology/
 └── tools/
-    ├── recolor.py           genera graphics/ y graphics-map.lua
-    ├── run_tests.py         runner; --dump relanza el data stage
+    ├── recolor.py           generates graphics/ and graphics-map.lua
+    ├── run_tests.py         runner; --dump relaunches the data stage
     └── tests/
-        ├── harness.py       registro de tests y aserciones
-        ├── context.py       rutas, cargadores, fórmula de daño
+        ├── harness.py       test registration and assertions
+        ├── context.py       paths, loaders, damage formula
         ├── test_manifest.py
         ├── test_graphics.py
         ├── test_data_stage.py
         └── test_balance.py
 ```
 
-### Entorno de desarrollo
+### Development environment
 
-El mod vive en `C:\Users\<user>\test\armored-belts` y está enlazado a la carpeta
-de mods mediante un **directory junction**:
+The mod lives at `C:\Users\<user>\test\armored-belts` and is linked into the
+mods folder via a **directory junction**:
 
 ```
 mklink /J "%APPDATA%\Factorio\mods\armored-belts" "C:\Users\<user>\test\armored-belts"
 ```
 
-Se edita en el directorio de trabajo y el juego lo ve al instante, sin copiar
-nada. Activado en `mods/mod-list.json`.
+You edit it in the working directory and the game sees it instantly, no
+copying needed. Enabled in `mods/mod-list.json`.
 
 ---
 
-## 10. Ideas pendientes
+## 10. Ideas for later
 
-- **Balance:** `decrease = 8` en físico hace inmunes a los biters pequeños.
-  Justificable por el momento del desbloqueo, pero bajarlo a 4 los devolvería al
-  juego si se busca más tensión.
-- **Space Age:** una variante blindada de la cinta turbo, para no sacrificar
-  velocidad por blindaje en el endgame.
-- **Placas de tungsteno** como ingrediente alternativo cuando Space Age está
-  activo — más temático que el acero para blindaje.
-- **Arte propio** en vez de recoloreado: remaches, chapa soldada, bordes
-  desgastados. El recoloreado es sólido, pero arte original es lo que separa un
-  mod que parece un reskin de uno que parece propio.
+- **Balance:** `decrease = 8` on physical makes small biters unable to damage
+  it. Justifiable given how late the tech unlocks, but dropping it to 4 would
+  bring them back into play if more tension is wanted.
+- **Space Age:** an armored variant of the turbo belt, so endgame players
+  don't have to trade speed for armor.
+- **Tungsten plates** as an alternate ingredient when Space Age is active —
+  more thematic than steel for armor plating.
+- **Original art** instead of recoloring: rivets, welded plating, worn edges.
+  The recolor holds up well, but original art is what separates a mod that
+  looks like a reskin from one that looks like its own thing.
