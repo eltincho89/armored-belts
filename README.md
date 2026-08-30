@@ -366,11 +366,11 @@ armored-belts/
 
 ### Entorno de desarrollo
 
-El mod vive en `C:\Users\chait\test\armored-belts` y está enlazado a la carpeta
+El mod vive en `C:\Users\<user>\test\armored-belts` y está enlazado a la carpeta
 de mods mediante un **directory junction**:
 
 ```
-mklink /J "%APPDATA%\Factorio\mods\armored-belts" "C:\Users\chait\test\armored-belts"
+mklink /J "%APPDATA%\Factorio\mods\armored-belts" "C:\Users\<user>\test\armored-belts"
 ```
 
 Se edita en el directorio de trabajo y el juego lo ve al instante, sin copiar
