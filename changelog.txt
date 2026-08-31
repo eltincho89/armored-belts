@@ -1,0 +1,19 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.2.3
+Date: 2026-08-30
+  Bugfixes:
+    - Fixed armored belt recipes defaulting to the "crafting" category, which
+      made them impossible to craft in the Vulcanus Foundry. They now use
+      "pressing", matching vanilla belt recipes, and remain hand-craftable.
+---------------------------------------------------------------------------------------------------
+Version: 0.2.2
+Date: 2026-08-30
+  Minor Features:
+    - Added thumbnail.png for the mod portal listing.
+---------------------------------------------------------------------------------------------------
+Version: 0.2.1
+Date: 2026-08-25
+  Info:
+    - Initial release of the armored belt line: armored transport belt,
+      underground belt and splitter, unlocked after logistics-3 and
+      military-3.
