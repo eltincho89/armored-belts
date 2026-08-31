@@ -238,6 +238,49 @@ def test_recipes(t):
             t.true(item_name in items, "%s: ingredient %s exists" % (name, item_name))
 
 
+@test(SUITE, "armored recipes are craftable everywhere their vanilla tier is")
+def test_recipe_categories_match_builders(t):
+    """Regression test for the Foundry bug: armored belts had no explicit
+    category, defaulting to "crafting", which the Foundry doesn't have.
+    Vanilla transport-belt/underground-belt/splitter use "pressing", which it
+    does. This checks two things: each armored recipe's category matches its
+    vanilla base tier's, and every machine that can build that base tier can
+    also build the armored one -- so a future category drift (in this mod or
+    in the base game) fails loudly instead of silently locking out a builder.
+    """
+    raw = dump()
+    recipes = raw.get("recipe", {})
+
+    builders = {}
+    for protos in raw.values():
+        if not isinstance(protos, dict):
+            continue
+        for name, proto in protos.items():
+            if isinstance(proto, dict) and "crafting_categories" in proto:
+                builders[name] = set(proto["crafting_categories"])
+
+    for armored_name, base_name, _source, _health in ctx.ENTITIES:
+        armored = recipes.get(armored_name)
+        base = recipes.get(base_name)
+        if not t.true(armored is not None, "%s: recipe exists" % armored_name):
+            continue
+        if not t.true(base is not None,
+                      "%s: base recipe %s exists" % (armored_name, base_name)):
+            continue
+
+        armored_category = armored.get("category", "crafting")
+        base_category = base.get("category", "crafting")
+        t.eq(armored_category, base_category,
+             "%s: category matches %s" % (armored_name, base_name))
+
+        base_builders = sorted(n for n, cats in builders.items()
+                               if base_category in cats)
+        for builder_name in base_builders:
+            t.true(armored_category in builders[builder_name],
+                  "%s: buildable in %s, like %s" %
+                  (armored_name, builder_name, base_name))
+
+
 @test(SUITE, "the technology gates the recipes at the right point in the tree")
 def test_technology(t):
     raw = dump()
