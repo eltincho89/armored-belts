@@ -224,8 +224,8 @@ def test_recipes(t):
         recipe = recipes.get(name)
         if not t.true(recipe is not None, "recipe %s exists" % name):
             continue
-        t.eq(recipe.get("category", "crafting"), "crafting",
-             "%s: plain crafting category" % name)
+        t.eq(recipe.get("category", "crafting"), "pressing",
+             "%s: pressing category (hand-craftable, Foundry-buildable)" % name)
         t.eq(recipe.get("enabled", True), False,
              "%s: locked until researched" % name)
         t.eq(recipe.get("energy_required"), expected["energy_required"],

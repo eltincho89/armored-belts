@@ -1,4 +1,9 @@
--- Plain "crafting" category (no lubricant) so armored belts stay hand-craftable.
+-- Category "pressing" (no lubricant) so armored belts stay hand-craftable AND
+-- match the vanilla belt/underground-belt/splitter recipes, which Space Age
+-- moved off the default "crafting" category specifically so the Foundry
+-- (Vulcanus) can produce them. Leaving this unset defaults to "crafting",
+-- which the Foundry doesn't support -- the character can still hand-craft it,
+-- but it disappears from the Foundry's recipe list.
 -- Repairing a frontline mid-fight shouldn't require walking back to a chem plant.
 
 data:extend
@@ -6,6 +11,7 @@ data:extend
   {
     type = "recipe",
     name = "armored-transport-belt",
+    category = "pressing",
     enabled = false,
     energy_required = 1,
     ingredients =
@@ -18,6 +24,7 @@ data:extend
   {
     type = "recipe",
     name = "armored-underground-belt",
+    category = "pressing",
     enabled = false,
     energy_required = 2,
     ingredients =
@@ -30,6 +37,7 @@ data:extend
   {
     type = "recipe",
     name = "armored-splitter",
+    category = "pressing",
     enabled = false,
     energy_required = 2,
     ingredients =

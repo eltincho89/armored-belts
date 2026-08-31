@@ -33,7 +33,8 @@ so armored can never end up worse than express at anything.
 
 ### Recipe and unlock
 
-Plain `crafting` category, **no lubricant**: hand-craftable. Repairing the
+`pressing` category, **no lubricant**: hand-craftable, and matches vanilla
+belt recipes so the Foundry on Vulcanus can produce them too. Repairing the
 line mid-attack shouldn't require a trip back to the chemical plant.
 
 | Recipe | Ingredients | Yields |
