@@ -3,7 +3,7 @@
 Mod for **Factorio 2.0** (Space Age compatible). An armored side-branch of the
 express belt line, built for frontline combat zones against Biters.
 
-- **Version:** 0.2.2
+- **Version:** 0.2.3
 - **Tested on:** Factorio 2.0.77 (build 84539, win64, steam, space-age)
 - **Dependencies:** `base >= 2.0`
 
