@@ -51,6 +51,21 @@ def test_data_lua(t):
     t.empty(missing, "every require() resolves to a file")
 
 
+@test(SUITE, "recipe category degrades to \"crafting\" without Space Age")
+def test_recipe_category_guard(t):
+    """Regression test for the crash reported without Space Age installed:
+    "Error in assignID: recipe-category with name 'pressing' does not exist".
+    "pressing" is a Space Age category, so referencing it unconditionally is
+    a hard crash on a base-only install; the fix routes it through
+    mods["space-age"], and this guards against that being hardcoded back.
+    """
+    text = (ctx.MOD_DIR / "prototypes" / "recipes.lua").read_text(encoding="utf-8")
+    t.true('mods["space-age"]' in text,
+           "recipes.lua checks mods[\"space-age\"] before using \"pressing\"")
+    t.true('category = "pressing"' not in text,
+           "no recipe hardcodes category = \"pressing\" directly")
+
+
 @test(SUITE, "graphics-map.lua is generated, never hand-edited")
 def test_generated_header(t):
     text = (ctx.MOD_DIR / "prototypes" / "graphics-map.lua").read_text(encoding="utf-8")
