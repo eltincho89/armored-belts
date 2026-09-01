@@ -3,7 +3,7 @@
 Mod for **Factorio 2.0** (Space Age compatible). An armored side-branch of the
 express belt line, built for frontline combat zones against Biters.
 
-- **Version:** 0.2.3
+- **Version:** 0.2.4
 - **Tested on:** Factorio 2.0.77 (build 84539, win64, steam, space-age)
 - **Dependencies:** `base >= 2.0`
 
@@ -34,8 +34,10 @@ so armored can never end up worse than express at anything.
 ### Recipe and unlock
 
 `pressing` category, **no lubricant**: hand-craftable, and matches vanilla
-belt recipes so the Foundry on Vulcanus can produce them too. Repairing the
-line mid-attack shouldn't require a trip back to the chemical plant.
+belt recipes so the Foundry on Vulcanus can produce them too. Without Space
+Age, where `pressing` doesn't exist, it falls back to plain `crafting` --
+same as vanilla's own belt recipes do. Repairing the line mid-attack
+shouldn't require a trip back to the chemical plant.
 
 | Recipe | Ingredients | Yields |
 |---|---|---|
@@ -272,7 +274,7 @@ python tools/run_tests.py -k balance # a single suite
 python tools/run_tests.py -v         # lists every assertion
 ```
 
-**333 assertions across 30 tests**, four suites, no dependencies beyond
+**362 assertions across 32 tests**, four suites, no dependencies beyond
 Pillow and numpy (already required by `recolor.py`). No pytest: the harness
 is 133 lines in `tools/tests/harness.py`, so the suite runs with a bare
 `python`. Assertions are recorded rather than raised, so one bad value

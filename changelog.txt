@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.4
+Date: 2026-08-31
+  Bugfixes:
+    - Fixed a crash on startup without Space Age installed or enabled
+      ("Error in assignID: recipe-category with name 'pressing' does not
+      exist"). The 0.2.3 fix hardcoded the "pressing" category, which is a
+      Space Age category and doesn't exist on a base-only install; it now
+      falls back to plain "crafting" in that case, same as vanilla's own
+      belt recipes do without the expansion.
+---------------------------------------------------------------------------------------------------
 Version: 0.2.3
 Date: 2026-08-30
   Bugfixes:
